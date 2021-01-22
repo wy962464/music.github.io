@@ -4,11 +4,11 @@
     <div class="main-left">
       <div
         class="main-main"
-        v-for="item in songlist"
+        v-for="(item,index) in songlist"
         :key="item.id"
         @click="handclickcomment(item.id)"
       >
-        <div class="main-main-left" @click="handclicksong(item.id)"></div>
+        <div class="main-main-left" @click="handclicksong(item.id,index)"></div>
         <div class="main-main-center">{{item.name}}</div>
         <div
           :class="['main-main-right',{hidden:item.mvid===0?true:false}]"
@@ -96,7 +96,7 @@ export default {
           this.$emit("getcomment", getcomment);
         });
     },
-    handclicksong(id) {
+    handclicksong(id,index) {
       //设置状态位
       this.palymusic = true;
       this.$http
@@ -110,6 +110,7 @@ export default {
           let songurl = res.data.data[0].url;
           this.$emit("geturl", songurl);
         });
+      this.$emit("num",index)
      this.$http.get("song/detail",{
             params:{
               ids:id
@@ -139,7 +140,47 @@ export default {
 
   },
   //生命周期 - 创建完成（可以访问当前this实例）
-  created() {},
+  created() {
+  this.$http.get("https://apimusic.linweiqin.com/search",{
+          params:{ 
+            keywords:"热门"
+          }
+   }).then((res)=>{
+          this.$emit("getlist",res.data.result.songs);
+   });
+    this.$http
+        .get("song/url", {
+          params: {
+            id: 468513829,
+          },
+        })
+        .then((res) => {
+          console.log(res);
+          let songurl = res.data.data[0].url;
+          this.$emit("geturl", songurl);
+        });
+         this.$http.get("song/detail",{
+            params:{
+              ids:468513829
+            }
+     }).then((res)=>{
+          console.log(res);
+          let mimgurl= res.data.songs[0].al.picUrl
+          console.log(mimgurl);
+          this.$emit("getmimgurl",mimgurl)
+     });
+      this.$http
+        .get("comment/hot?type=0", {
+          params: {
+            id: 468513829,
+          },
+        })
+        .then((res) => {
+          let getcomment = res.data.hotComments;
+          this.$emit("getcomment", getcomment);
+        });
+    
+  },
   //生命周期 - 挂载完成（可以访问DOM元素）
   mounted() {},
   beforeCreate() {}, //生命周期 - 创建之前

@@ -10,9 +10,10 @@
       :musicstop="getstopmusic"
       @getmimgurl="handgetmimgurl"
       :backmimgurl="mimgurl"
-      
+      @getlist="handgtelist"
+      @num="handindex"
     ></music-main>
-    <music-footer :songurl="getsongurl" @stopmusic="handstopmusic" :stopmask="handmaskcancel"></music-footer>
+    <music-footer :songurl="getsongurl" @stopmusic="handstopmusic" :stopmask="handmaskcancel" :footerimg="mimgurl" :footersonglist="songlist" :footindex="index"></music-footer>
     <div class="mask" :class="{none:handmaskcancel}">
       <div class="mask-video">
         <video ref="video" :src="getmv" controls autoplay loop></video>
@@ -36,7 +37,8 @@ export default {
       getcomment: [],
       handmaskcancel: true,
       getstopmusic:false,
-      mimgurl:""
+      mimgurl:"",
+      index:0,
     };
   },
   components: {
@@ -73,11 +75,20 @@ export default {
    handgetmimgurl(mimgurl){
       this.mimgurl=mimgurl
    },
+   handindex(index){
+   this.index=index
+   console.log(index);
+   }
   },
 };
 </script>
 
 <style>
+body{
+  width: 100%;
+  height: 949px;
+  background: #ccc;
+}
 * {
   margin: 0;
   padding: 0;
@@ -85,12 +96,13 @@ export default {
 #app {
   position: relative;
   box-sizing: border-box;
-  width: 1000px;
-  height: 601px;
+  width: 1002px;
+  height: 597px;
   margin: 0 auto;
   margin-top: 20px;
   background: url(/static/imgs/home.jpg)  no-repeat center   ;
   background-size: 100% 100%;
+  border: 1px solid #ccc;
 }
 .mask {
   position: absolute;
