@@ -148,20 +148,9 @@ export default {
    }).then((res)=>{
           this.$emit("getlist",res.data.result.songs);
    });
-    this.$http
-        .get("song/url", {
-          params: {
-            id: 468513829,
-          },
-        })
-        .then((res) => {
-          console.log(res);
-          let songurl = res.data.data[0].url;
-          this.$emit("geturl", songurl);
-        });
          this.$http.get("song/detail",{
             params:{
-              ids:468513829
+              ids:1357999894
             }
      }).then((res)=>{
           console.log(res);
@@ -172,7 +161,7 @@ export default {
       this.$http
         .get("comment/hot?type=0", {
           params: {
-            id: 468513829,
+            id: 1357999894,
           },
         })
         .then((res) => {
