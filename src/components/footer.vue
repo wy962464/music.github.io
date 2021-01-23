@@ -115,6 +115,7 @@ audio {
   width: 90px;
   text-align: center;
   font-size: 12px;
+  
   overflow: hidden;
 }
 </style>
