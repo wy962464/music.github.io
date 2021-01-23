@@ -100,7 +100,7 @@ body{
   height: 597px;
   margin: 0 auto;
   margin-top: 20px;
-  background: url(/static/imgs/home.jpg)  no-repeat center   ;
+  background: url("https://wx3.sinaimg.cn/mw690/006RXGd4gy1gmxgi2woq4j31hc0u0gsh.jpg")  no-repeat center   ;
   background-size: 100% 100%;
   border: 1px solid #ccc;
 }

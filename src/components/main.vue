@@ -17,9 +17,9 @@
       </div>
     </div>
     <div class="main-center">
-      <img :class="['discimg',{discing:palymusic}]" src="/static/imgs/disc.png" alt />
-      <img :class="['playerimg',{playing:palymusic}]" src="/static/imgs/player_bar.png" alt />
-     <img :src="backmimgurl" alt="" :class="['backmimgurl',{backmimgurlrun:palymusic}]">
+      <div :class="['discimg',{discing:palymusic}]" ></div>
+      <img :class="['playerimg',{playing:palymusic}]" src="http://assets.stickpng.com/thumbs/58e3853c204d556bbd97b151.png" alt />
+      <img :src="backmimgurl" alt="" :class="['backmimgurl',{backmimgurlrun:palymusic}]">
     </div>
     <div class="main-right">
       <div class="message">热门留言</div>
@@ -222,9 +222,9 @@ export default {
 .main-main-left {
   width: 50px;
   height: 100%;
-  width: 25px;
-  height: 25px;
-  background: url(/static/imgs/table.png) -18px -20px;
+  width: 18px;
+  height: 18px;
+  background: url("https://s2.music.126.net/style/web2/img/table.png?7a37365cb08ee28de7adc74ac76bdb9c") -20px -128px;
 }
 .main-center {
   position: relative;
@@ -233,18 +233,24 @@ export default {
   left: 200px;
   position: absolute;
   z-index: 8;
-  transform: rotate(-25deg);
-  transform-origin: 12px 12px;
+  transform: rotate(-47deg);
+  transform-origin: 66px 12px;
   transition: all 2s;
+  width: 92px;
+  height: 128px;
 }
 .playing {
-  transform: rotate(0) !important;
+  transform: rotate(-30deg) !important;
 }
 .discimg {
+  width: 204px;
+  height: 202px;
   position: absolute;
-  left: 100px;
+  left: 127px;
   top: 100px;
   z-index: 2;
+  background: url("https://s2.music.126.net/style/web2/img/coverall.png?415ce7b46861e87b4ec362faf44f6da4") no-repeat ;
+  background-position: -140px -580px;
 }
 .discing {
   animation-name: running;
@@ -264,8 +270,9 @@ export default {
   position: absolute;
   width: 150px;
   height: 150px;
-  top: 150px;
-  left: 150px;
+  top: 130px;
+  left: 153px;
+  border-radius: 50%;
 }
 .backmimgurlrun{
   animation-name: left;
@@ -284,9 +291,10 @@ export default {
 .main-main-right {
   width: 50px;
   height: 100%;
-  width: 30px;
-  height: 20px;
-  background: url(/static/imgs/table.png) left -45px;
+  width: 26px;
+  height: 17px;
+  background: url("https://s2.music.126.net/style/web2/img/table.png?7a37365cb08ee28de7adc74ac76bdb9c") no-repeat;
+  background-position: 0 -151px;
 }
 .main-main-center {
   overflow: hidden;

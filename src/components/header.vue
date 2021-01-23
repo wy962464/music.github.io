@@ -84,11 +84,11 @@ this.$emit("getlist",res.data.result.songs);
 .header-left a {
   position: absolute;
   display: inline-block;
-  width: 40px;
-  height: 60px;
-  background: url("/static/imgs/topbar.png") no-repeat;
-  left: 8px;
-  top: -4px;
+  width: 33px;
+  height: 52px;
+  background: url("https://s2.music.126.net/style/web2/img/frame/topbar.png?345c68cea0333beaa6447c10e846d3ad") no-repeat;
+  left: 9px;
+  top: -7px;
 }
 .header-right {
   height: 100%;
@@ -101,6 +101,6 @@ this.$emit("getlist",res.data.result.songs);
   border-radius: 13px;
   outline: none;
   text-indent: 14px;
-  background: url(/static/imgs/zoom.png) 170px center no-repeat white;
+  background: url("https://s2.music.126.net/style/web2/img/frame/topbar.png?345c68cea0333beaa6447c10e846d3ad") 173px -99px no-repeat white;
 }
 </style>
