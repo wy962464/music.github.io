@@ -1,11 +1,14 @@
 <!-- music-header -->
 <template>
   <div class="header">
-    <div class="header-left">
-      <a href="#" title="在线音乐"></a>在线音乐
-    </div>
+    <div class="header-left"><a href="#" title="在线音乐"></a>在线音乐</div>
     <div class="header-right">
-      <input type="text" v-model="headervalue" @keydown.enter="handenter" placeholder="热门/民谣" >
+      <input
+        type="text"
+        v-model="headervalue"
+        @keydown.enter="handenter"
+        placeholder="热门/民谣"
+      />
     </div>
   </div>
 </template>
@@ -29,25 +32,16 @@ export default {
   watch: {},
   //方法集合
   methods: {
-    handenter: async function () {
-         if(!this.headervalue){
-           return false
-         }
-   //1 
-//    this.$http.get("https://apimusic.linweiqin.com/search",{
-//           params:{ 
-//             keywords:this.headervalue
-//           }
-//    }).then(res=>{
-//           console.log(res);
-//    })
-//2 
-let res =await this.$http.get("search",{
-      params:{
-          keywords:this.headervalue
+    handenter: async function() {
+      if (!this.headervalue) {
+        return false;
       }
-});
-this.$emit("getlist",res.data.result.songs);
+      let res = await this.$http.get("search", {
+        params: {
+          keywords: this.headervalue,
+        },
+      });
+      this.$emit("getlist", res.data.result.songs);
     },
   },
   //生命周期 - 创建完成（可以访问当前this实例）
@@ -63,7 +57,7 @@ this.$emit("getlist",res.data.result.songs);
   activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
 };
 </script>
-<style   scoped>
+<style scoped>
 .header {
   position: relative;
   height: 60px;
@@ -73,7 +67,10 @@ this.$emit("getlist",res.data.result.songs);
   text-align: center;
   line-height: 60px;
   font-weight: 700;
-  border-bottom: 1px solid #a71e1e;
+  border: 1px solid #a71e1e;
+  border-bottom: none;
+  box-sizing: border-box;
+  background: #a71e1e;
 }
 .header-left {
   width: 172px;
@@ -86,7 +83,8 @@ this.$emit("getlist",res.data.result.songs);
   display: inline-block;
   width: 33px;
   height: 52px;
-  background: url("https://s2.music.126.net/style/web2/img/frame/topbar.png?345c68cea0333beaa6447c10e846d3ad") no-repeat;
+  background: url("https://s2.music.126.net/style/web2/img/frame/topbar.png?345c68cea0333beaa6447c10e846d3ad")
+    no-repeat;
   left: 9px;
   top: -7px;
 }
@@ -101,6 +99,7 @@ this.$emit("getlist",res.data.result.songs);
   border-radius: 13px;
   outline: none;
   text-indent: 14px;
-  background: url("https://s2.music.126.net/style/web2/img/frame/topbar.png?345c68cea0333beaa6447c10e846d3ad") 173px -99px no-repeat white;
+  background: url("https://s2.music.126.net/style/web2/img/frame/topbar.png?345c68cea0333beaa6447c10e846d3ad")
+    173px -99px no-repeat white;
 }
 </style>

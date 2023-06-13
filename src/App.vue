@@ -1,24 +1,33 @@
 <template>
   <div id="app">
-    <music-header @getlist="handgtelist"></music-header>
-    <music-main
-      @getmvurl="handgetmvurl"
-      :songlist="songlist"
-      @geturl="handsongurl"
-      @getcomment="handgetcomment"
-      :backcomment="getcomment"
-      :musicstop="getstopmusic"
-      @getmimgurl="handgetmimgurl"
-      :backmimgurl="mimgurl"
-      @getlist="handgtelist"
-      @num="handindex"
-    ></music-main>
-    <music-footer :songurl="getsongurl" @stopmusic="handstopmusic" :stopmask="handmaskcancel" :footerimg="mimgurl" :footersonglist="songlist" :footindex="index"></music-footer>
-    <div class="mask" :class="{none:handmaskcancel}">
-      <div class="mask-video">
-        <video ref="video" :src="getmv" controls autoplay loop></video>
+    <div class="main">
+      <music-header @getlist="handgtelist"></music-header>
+      <music-main
+        @getmvurl="handgetmvurl"
+        :songlist="songlist"
+        @geturl="handsongurl"
+        @getcomment="handgetcomment"
+        :backcomment="getcomment"
+        :musicstop="getstopmusic"
+        @getmimgurl="handgetmimgurl"
+        :backmimgurl="mimgurl"
+        @getlist="handgtelist"
+        @num="handindex"
+      ></music-main>
+      <music-footer
+        :songurl="getsongurl"
+        @stopmusic="handstopmusic"
+        :stopmask="handmaskcancel"
+        :footerimg="mimgurl"
+        :footersonglist="songlist"
+        :footindex="index"
+      ></music-footer>
+      <div class="mask" :class="{ none: handmaskcancel }">
+        <div class="mask-video">
+          <video ref="video" :src="getmv" controls autoplay loop></video>
+        </div>
+        <div class="mask-cancel" @click="handcancel">x</div>
       </div>
-      <div class="mask-cancel" @click="handcancel">x</div>
     </div>
   </div>
 </template>
@@ -29,16 +38,16 @@ import Main from "./components/main.vue";
 import Footer from "./components/footer.vue";
 export default {
   name: "App",
-  data: function () {
+  data: function() {
     return {
       songlist: [],
       getsongurl: "",
       getmv: "",
       getcomment: [],
       handmaskcancel: true,
-      getstopmusic:false,
-      mimgurl:"",
-      index:0,
+      getstopmusic: false,
+      mimgurl: "",
+      index: 0,
     };
   },
   components: {
@@ -46,8 +55,7 @@ export default {
     "music-main": Main,
     "music-footer": Footer,
   },
-  watch:{
-  },
+  watch: {},
   methods: {
     handgtelist(songlist) {
       this.songlist = songlist;
@@ -69,25 +77,24 @@ export default {
       //视频停止的触发事件 pause
       this.$refs.video.pause();
     },
-   handstopmusic(stop){
-       this.getstopmusic=stop
-   },
-   handgetmimgurl(mimgurl){
-      this.mimgurl=mimgurl
-   },
-   handindex(index){
-   this.index=index
-   console.log(index);
-   }
+    handstopmusic(stop) {
+      this.getstopmusic = stop;
+    },
+    handgetmimgurl(mimgurl) {
+      this.mimgurl = mimgurl;
+    },
+    handindex(index) {
+      this.index = index;
+      console.log(index);
+    },
   },
 };
 </script>
 
 <style>
-body{
+body {
   width: 100%;
   height: 949px;
-  background: #ccc;
 }
 * {
   margin: 0;
@@ -100,7 +107,8 @@ body{
   height: 597px;
   margin: 0 auto;
   margin-top: 20px;
-  background: url("https://wxt.sinaimg.cn/thumb300/006RXGd4gy1gmxj90mmgcj31hc0u0gsh.jpg?tags=%5B%5D")  no-repeat center   ;
+  background: url("https://wxt.sinaimg.cn/thumb300/006RXGd4gy1gmxj90mmgcj31hc0u0gsh.jpg?tags=%5B%5D")
+    no-repeat center;
   background-size: 100% 100%;
   border: 1px solid #ccc;
 }
@@ -137,5 +145,9 @@ video {
 }
 .none {
   display: none;
+}
+.main {
+  width: 1002px;
+  height: 597px;
 }
 </style>

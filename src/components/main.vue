@@ -4,31 +4,45 @@
     <div class="main-left">
       <div
         class="main-main"
-        v-for="(item,index) in songlist"
+        v-for="(item, index) in songlist"
         :key="item.id"
         @click="handclickcomment(item.id)"
       >
-        <div class="main-main-left" @click="handclicksong(item.id,index)"></div>
-        <div class="main-main-center">{{item.name}}</div>
         <div
-          :class="['main-main-right',{hidden:item.mvid===0?true:false}]"
+          class="main-main-left"
+          @click="handclicksong(item.id, index)"
+        ></div>
+        <div class="main-main-center">{{ item.name }}</div>
+        <div
+          :class="[
+            'main-main-right',
+            { hidden: item.mvid === 0 ? true : false },
+          ]"
           @click="handsongmv(item.mvid)"
         ></div>
       </div>
     </div>
     <div class="main-center">
-      <div :class="['discimg',{discing:palymusic}]" ></div>
-      <img :class="['playerimg',{playing:palymusic}]" src="http://assets.stickpng.com/thumbs/58e3853c204d556bbd97b151.png" alt />
-      <img :src="backmimgurl" alt="" :class="['backmimgurl',{backmimgurlrun:palymusic}]">
+      <div :class="['discimg', { discing: palymusic }]"></div>
+      <img
+        :class="['playerimg', { playing: palymusic }]"
+        src="../../public/static/imgs/zhen.png"
+        alt
+      />
+      <img
+        :src="backmimgurl"
+        alt=""
+        :class="['backmimgurl', { backmimgurlrun: palymusic }]"
+      />
     </div>
     <div class="main-right">
       <div class="message">热门留言</div>
       <div class="comment" v-for="items in backcomment" :key="items.id">
         <div class="comment-headportrait">
-          <img  :src="items.user.avatarUrl" alt />
+          <img :src="items.user.avatarUrl" alt />
         </div>
-        <div class="comment-nickname">{{items.user.nickname}}</div>
-        <div class="comment-text">{{items.content}}</div>
+        <div class="comment-nickname">{{ items.user.nickname }}</div>
+        <div class="comment-text">{{ items.content }}</div>
       </div>
     </div>
   </div>
@@ -42,7 +56,7 @@ export default {
   props: {
     songlist: {
       type: Array,
-      default: function () {
+      default: function() {
         return [];
       },
     },
@@ -52,7 +66,7 @@ export default {
     },
     backcomment: {
       type: Array,
-      default: function () {
+      default: function() {
         return [];
       },
     },
@@ -60,9 +74,9 @@ export default {
       type: Boolean,
       default: false,
     },
-    backmimgurl:{
-        type:String,
-        default: "",
+    backmimgurl: {
+      type: String,
+      default: "",
     },
   },
   //import引入的组件需要注入到对象中才能使用
@@ -70,7 +84,7 @@ export default {
   data() {
     //这里存放数据
     return {
-      palymusic:false,
+      palymusic: false,
       //palyingmusic:this.palymusic
     };
   },
@@ -78,15 +92,15 @@ export default {
   computed: {},
   //监控data中的数据变化
   watch: {
-   musicstop(newvalue){
-     this.palymusic=newvalue
-   },
+    musicstop(newvalue) {
+      this.palymusic = newvalue;
+    },
   },
   //方法集合
   methods: {
     handclickcomment(id) {
       this.$http
-        .get("comment/hot?type=0", {
+        .get("/comment/hot?type=0", {
           params: {
             id: id,
           },
@@ -96,11 +110,11 @@ export default {
           this.$emit("getcomment", getcomment);
         });
     },
-    handclicksong(id,index) {
+    handclicksong(id, index) {
       //设置状态位
       this.palymusic = true;
       this.$http
-        .get("song/url", {
+        .get("/song/url", {
           params: {
             id: id,
           },
@@ -110,23 +124,25 @@ export default {
           let songurl = res.data.data[0].url;
           this.$emit("geturl", songurl);
         });
-      this.$emit("num",index)
-     this.$http.get("song/detail",{
-            params:{
-              ids:id
-            }
-     }).then((res)=>{
+      this.$emit("num", index);
+      this.$http
+        .get("/song/detail", {
+          params: {
+            ids: id,
+          },
+        })
+        .then((res) => {
           console.log(res);
-          let mimgurl= res.data.songs[0].al.picUrl
+          let mimgurl = res.data.songs[0].al.picUrl;
           console.log(mimgurl);
-          this.$emit("getmimgurl",mimgurl)
-     })
+          this.$emit("getmimgurl", mimgurl);
+        });
     },
     handsongmv(mvid) {
       this.palymusic = false;
       console.log(mvid);
       this.$http
-        .get("mv/url", {
+        .get("/mv/url", {
           params: {
             id: mvid,
           },
@@ -137,38 +153,40 @@ export default {
           console.log(songmvid);
         });
     },
-
   },
   //生命周期 - 创建完成（可以访问当前this实例）
   created() {
-  this.$http.get("https://apimusic.linweiqin.com/search",{
-          params:{ 
-            keywords:"热门"
-          }
-   }).then((res)=>{
-          this.$emit("getlist",res.data.result.songs);
-   });
-         this.$http.get("song/detail",{
-            params:{
-              ids:1357999894
-            }
-     }).then((res)=>{
-          console.log(res);
-          let mimgurl= res.data.songs[0].al.picUrl
-          console.log(mimgurl);
-          this.$emit("getmimgurl",mimgurl)
-     });
-      this.$http
-        .get("comment/hot?type=0", {
-          params: {
-            id: 1357999894,
-          },
-        })
-        .then((res) => {
-          let getcomment = res.data.hotComments;
-          this.$emit("getcomment", getcomment);
-        });
-    
+    this.$http
+      .get("/cloudsearch", {
+        params: {
+          keywords: "椿",
+        },
+      })
+      .then((res) => {
+        this.$emit("getlist", res.data.result.songs);
+      });
+    this.$http
+      .get("/song/detail", {
+        params: {
+          ids: 1357999894,
+        },
+      })
+      .then((res) => {
+        console.log(res);
+        let mimgurl = res.data.songs[0].al.picUrl;
+        console.log(mimgurl);
+        this.$emit("getmimgurl", mimgurl);
+      });
+    this.$http
+      .get("/comment/hot?type=0", {
+        params: {
+          id: 1357999894,
+        },
+      })
+      .then((res) => {
+        let getcomment = res.data.hotComments;
+        this.$emit("getcomment", getcomment);
+      });
   },
   //生命周期 - 挂载完成（可以访问DOM元素）
   mounted() {},
@@ -181,16 +199,20 @@ export default {
   activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
 };
 </script>
-<style   scoped>
+<style scoped>
 .main {
   width: 100%;
   height: 480px;
+  border: 1px solid #a71e1e;
+  box-sizing: border-box;
+  border-bottom: none;
 }
 .main-left {
   width: 250px;
   height: 100%;
-  overflow-y: scroll;
+  overflow-y: auto;
   float: left;
+  padding: 0 10px;
 }
 .main-main {
   display: flex;
@@ -201,12 +223,16 @@ export default {
   cursor: pointer;
   align-items: center;
   line-height: 50px;
+  border: 1px solid #cccc;
+  box-sizing: border-box;
+  padding: 0 8px;
 }
-.main-main:nth-child(odd) {
+
+.main-main {
+  background: #fff;
+}
+.main-main:hover {
   background: #cccc;
-}
-.main-main:nth-child(even) {
-  background: #ccc;
 }
 .main-main-left {
   width: 50px;
@@ -222,14 +248,14 @@ export default {
   left: 200px;
   position: absolute;
   z-index: 8;
-  transform: rotate(-47deg);
+  transform: rotate(-20deg);
   transform-origin: 66px 12px;
   transition: all 2s;
   width: 92px;
   height: 128px;
 }
 .playing {
-  transform: rotate(-30deg) !important;
+  transform: rotate(0deg) !important;
 }
 .discimg {
   width: 204px;
@@ -238,7 +264,8 @@ export default {
   left: 127px;
   top: 100px;
   z-index: 2;
-  background: url("https://s2.music.126.net/style/web2/img/coverall.png?415ce7b46861e87b4ec362faf44f6da4") no-repeat ;
+  background: url("https://s2.music.126.net/style/web2/img/coverall.png?415ce7b46861e87b4ec362faf44f6da4")
+    no-repeat;
   background-position: -140px -580px;
 }
 .discing {
@@ -255,7 +282,7 @@ export default {
     transform: rotate(360deg);
   }
 }
-.backmimgurl{
+.backmimgurl {
   position: absolute;
   width: 150px;
   height: 150px;
@@ -263,13 +290,13 @@ export default {
   left: 153px;
   border-radius: 50%;
 }
-.backmimgurlrun{
+.backmimgurlrun {
   animation-name: left;
   animation-duration: 10s;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
 }
-@keyframes  left{
+@keyframes left {
   from {
     transform: rotate(0deg);
   }
@@ -282,7 +309,8 @@ export default {
   height: 100%;
   width: 26px;
   height: 17px;
-  background: url("https://s2.music.126.net/style/web2/img/table.png?7a37365cb08ee28de7adc74ac76bdb9c") no-repeat;
+  background: url("https://s2.music.126.net/style/web2/img/table.png?7a37365cb08ee28de7adc74ac76bdb9c")
+    no-repeat;
   background-position: 0 -151px;
 }
 .main-main-center {
@@ -296,9 +324,10 @@ export default {
   visibility: hidden;
 }
 .main-center {
-  width: 480px;
+  width: 460px;
   height: 100%;
   float: left;
+  background: #ccc;
 }
 video {
   width: 100%;
@@ -310,7 +339,7 @@ video {
   height: 100%;
   width: 270px;
   float: left;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 .message {
   color: #fff;
@@ -355,6 +384,6 @@ video {
   font-size: 17px;
   margin-top: 10px;
   font-weight: 500;
-  font-family:Arial,Helvetica,sans-serif
+  font-family: Arial, Helvetica, sans-serif;
 }
 </style>
